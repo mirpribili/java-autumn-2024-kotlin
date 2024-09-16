@@ -20,7 +20,6 @@ data class News(
     @SerialName("publication_date")
     val publicationDate: Long, // Изменено на Long
     //val rating: Double = 0.0
-    // TODO rating place
 ) {
     val calculatedRating: Double by lazy {
         1 / (1 + Math.exp(-(favoritesCount.toDouble() / (commentsCount + 1))))
