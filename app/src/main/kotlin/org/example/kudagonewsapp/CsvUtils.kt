@@ -1,0 +1,19 @@
+package com.example.kudagonewsapp
+
+import java.io.File
+import java.nio.file.Paths
+
+fun saveNews(path: String, news: Collection<News>) {
+    val file = Paths.get(path).toFile()
+
+    if (file.exists()) {
+        throw IllegalArgumentException("Файл уже существует по указанному пути")
+    }
+
+    file.bufferedWriter().use { writer ->
+        writer.write("id,title,place,description,siteUrl,favoritesCount,commentsCount,publicationDate,rating\n")
+        news.forEach { newsItem ->
+            writer.write("${newsItem.id},\"${newsItem.title}\",\"${newsItem.place}\",\"${newsItem.description}\",${newsItem.siteUrl},${newsItem.favoritesCount},${newsItem.commentsCount},${newsItem.publicationDate},${newsItem.calculatedRating}\n")
+        }
+    }
+}
