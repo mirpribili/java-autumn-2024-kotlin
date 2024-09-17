@@ -7,8 +7,6 @@ import com.example.kudagonewsapp.*
 import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.*
 import java.io.File
-import org.example.kudagonewsapp.coolPrint
-import org.example.kudagonewsapp.Printer
 
 class App {
     val greeting: String
@@ -98,7 +96,7 @@ fun main() = runBlocking {
 
             section("Stats") {
                 text("Favorites: ${news.favoritesCount}")
-                text("Comments: ${news.commentsCount}")
+                text("Commentеs: ${news.commentsCount}")
                 text("Rating: ${String.format("%.2f", news.calculatedRating)}")
             }
 

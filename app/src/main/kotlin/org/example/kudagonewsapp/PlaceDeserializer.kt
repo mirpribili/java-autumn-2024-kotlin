@@ -2,8 +2,6 @@ package com.example.kudagonewsapp
 
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.*
-import kotlinx.serialization.descriptors.*
-import kotlinx.serialization.encoding.*
 
 object PlaceDeserializer : JsonTransformingSerializer<String>(String.serializer()) {
     override fun transformDeserialize(element: JsonElement): JsonElement {

@@ -6,11 +6,11 @@ class Printer {
     private val content = StringBuilder()
 
     fun header(text: String) {
-        content.append("=== $text ===\n")
+        content.append("============ $text\n")
     }
 
     fun section(title: String, block: Printer.() -> Unit) {
-        content.append("--- $title ---\n")
+        content.append("--------------$title\n")
         val section = Printer()
         section.block()
         content.append(section.content.toString().prependIndent("  "))
@@ -21,10 +21,9 @@ class Printer {
         content.append("$value\n")
     }
 
-    fun bold(value: String): String = "**$value**"
+    fun bold(value: String): String = value
 
-    fun italic(value: String): String = "*$value*"
-
+    fun italic(value: String): String = value
     fun link(url: String, text: String): String = "[$text]($url)"
 
     override fun toString(): String = content.toString()
