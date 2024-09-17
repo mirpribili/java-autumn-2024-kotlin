@@ -17,3 +17,15 @@ fun saveNews(path: String, news: Collection<News>) {
         }
     }
 }
+fun deleteFileIfExists(filePath: String) {
+    val file = File(filePath)
+    if (file.exists()) {
+        if (file.delete()) {
+            println("Файл успешно удалён: $filePath")
+        } else {
+            println("Не удалось удалить файл: $filePath")
+        }
+    } else {
+        println("Файл не существует: $filePath")
+    }
+}

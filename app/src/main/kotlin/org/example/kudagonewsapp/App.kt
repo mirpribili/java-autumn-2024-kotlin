@@ -3,11 +3,12 @@
  */
 package org.example.kudagonewsapp
 
-import com.example.kudagonewsapp.getMostRatedNewsUsingLoops
-import com.example.kudagonewsapp.getMostRatedNewsUsingSequences
-import com.example.kudagonewsapp.getNews
+import com.example.kudagonewsapp.*
 import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.*
+import java.io.File
+import org.example.kudagonewsapp.coolPrint
+import org.example.kudagonewsapp.Printer
 
 class App {
     val greeting: String
@@ -46,4 +47,67 @@ fun main() = runBlocking {
     println("News with non-null place:")
     newsWithPlace.forEach { println(it) }
 
+    println("---------------------------------")
+    // Сохраняем новости в CSV файл
+    val filePath = "news_${today}.csv"
+    deleteFileIfExists(filePath)
+    try {
+        saveNews(filePath, newsList)
+
+        // Проверяем, что файл создан и не пустой
+        val savedFile = File(filePath)
+        if (savedFile.exists() && savedFile.length() > 0) {
+            println("Новости успешно сохранены в файл: $filePath")
+            println("Размер файла: ${savedFile.length()} байт")
+
+            // Выводим первые несколько строк файла для проверки
+            println("Первые 2 строки файла:")
+            savedFile.useLines { lines ->
+                lines.take(2).forEach { println(it) }
+            }
+        } else {
+            println("Ошибка: Файл не был создан или пуст")
+        }
+    } catch (e: IllegalArgumentException) {
+        println("Ошибка при сохранении файла: ${e.message}")
+    } catch (e: Exception) {
+        println("Произошла неожиданная ошибка при работе с файлом: ${e.message}")
+    }
+
+    println("---------------------------------")
+    // Print
+    println("---------------------------------")
+    println("Printed News:")
+
+    // Выберем первые 3 новости для демонстрации
+    newsList.take(3).forEach { news ->
+        val prettyNews = news.coolPrint {
+            header(news.title)
+
+            section("Details") {
+                text("ID: ${bold(news.id.toString())}")
+                text("Publication Date: ${italic(news.getPublicationDateAsLocalDate().toString())}")
+                if (news.place != null) {
+                    text("Place: ${news.place}")
+                }
+            }
+
+            section("Content") {
+                text(news.description)
+            }
+
+            section("Stats") {
+                text("Favorites: ${news.favoritesCount}")
+                text("Comments: ${news.commentsCount}")
+                text("Rating: ${String.format("%.2f", news.calculatedRating)}")
+            }
+
+            section("Links") {
+                text(link(news.siteUrl, "Read more"))
+            }
+        }
+
+        println(prettyNews)
+        println("---------------------------------")
+    }
 }
