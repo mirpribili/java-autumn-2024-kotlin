@@ -15,7 +15,7 @@ plugins {
     application
 }
 
-group = "com.example.kudagonewsapp"
+group = "org.example.kudagonewsapp"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -47,7 +47,7 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass.set("com.example.kudagonewsapp.MainKt")
+    mainClass.set("org.example.kudagonewsapp.AppKt")
 }
 
 tasks.named<Test>("test") {
